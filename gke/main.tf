@@ -219,6 +219,10 @@ resource "google_container_cluster" "cluster" {
 
     service_account = google_service_account.default.email
 
+    workload_metadata_config {
+      mode = "GCE_METADATA"
+    }
+
   }
 
   # The loggingservice that the cluster should write logs to. Using the
@@ -350,8 +354,5 @@ resource "google_container_node_pool" "node_pool" {
   # https://www.terraform.io/docs/configuration/resources.html#operation-timeouts
   timeouts {
     update = "20m"
-  }
-  workload_metadata_config {
-    node_metadata = "SECURE"
   }
 }
