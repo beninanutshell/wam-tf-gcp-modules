@@ -104,16 +104,6 @@ resource "google_container_cluster" "cluster" {
     master_ipv4_cidr_block = var.master_ipv4_cidr_block
   }
 
-  # Configuration options for the NetworkPolicy feature.
-  #network_policy {
-  ## Whether network policy is enabled on the cluster. Defaults to false.
-  ## In GKE this also enables the ip masquerade agent
-  ## https://cloud.google.com/kubernetes-engine/docs/how-to/ip-masquerade-agent
-  #enabled = var.enable_dataplane_v2 ? true : false
-  ## The selected network policy provider. Defaults to PROVIDER_UNSPECIFIED.
-  ##provider = "CALICO"
-  #provider = var.enable_dataplane_v2 ? "PROVIDER_UNSPECIFIED" : "CALICO"
-  #}
   dynamic "network_policy" {
     for_each = var.cluster_network_policy == true ? [1] : []
     content {
