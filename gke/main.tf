@@ -30,6 +30,7 @@ locals {
   authenticator_security_group = var.authenticator_security_group == "" ? [] : [var.authenticator_security_group]
   cluster_name                 = "${var.gcp_project_id}-kcl-${var.cluster_name}"
   cluster_labels               = merge(var.cluster_additional_labels, tomap(var.labels))
+  gateway_api_config           = var.gateway_api_channel != null ? [{ channel : var.gateway_api_channel }] : []
 }
 
 provider "google" {
@@ -69,6 +70,15 @@ resource "google_container_cluster" "cluster" {
 
     content {
       channel = release_channel.value
+    }
+  }
+
+
+  dynamic "gateway_api_config" {
+    for_each = local.gateway_api_config
+
+    content {
+      channel = gateway_api_config.value.channel
     }
   }
 

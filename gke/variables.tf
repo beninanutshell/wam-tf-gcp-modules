@@ -432,3 +432,9 @@ variable "cluster_network_policy" {
   description = "Configuration options for the NetworkPolicy based on CALICO CNI implementation."
   default     = false
 }
+
+variable "gateway_api_channel" {
+  type        = string
+  description = "The gateway api channel of this cluster. Accepted values are `CHANNEL_STANDARD` and `CHANNEL_DISABLED`."
+  default     = "CHANNEL_STANDARD"
+}
