@@ -28,7 +28,7 @@ locals {
   min_master_version           = var.release_channel == "" ? var.min_master_version : ""
   workload_pool                = var.workload_pool == "" ? [] : [var.workload_pool]
   authenticator_security_group = var.authenticator_security_group == "" ? [] : [var.authenticator_security_group]
-  cluster_name                 = "${var.gcp_project_id}-kcl-${var.cluster_name}"
+  cluster_name                 = "${var.cluster_name}-kcl"
   cluster_labels               = merge(var.cluster_additional_labels, tomap(var.labels))
   gateway_api_config           = var.gateway_api_channel != null ? [{ channel : var.gateway_api_channel }] : []
 }
@@ -112,6 +112,10 @@ resource "google_container_cluster" "cluster" {
     enable_private_nodes    = var.private_nodes
 
     master_ipv4_cidr_block = var.master_ipv4_cidr_block
+
+    master_global_access_config {
+      enabled = true
+    }
   }
 
   dynamic "network_policy" {
@@ -260,7 +264,7 @@ resource "google_container_node_pool" "node_pool" {
   # The name of the node pool. Instance groups created will have the cluster
   # name prefixed automatically.
   #  name = format("%s-np", lookup(var.node_pools[count.index], "name", format("%03d", count.index + 1)))
-  name = "${var.gcp_project_id}-npl-${var.cluster_name}-${lookup(var.node_pools[count.index], "name", format("%03d", count.index + 1))}"
+  name = "${var.cluster_name}-npl-${lookup(var.node_pools[count.index], "name", format("%03d", count.index + 1))}"
 
   # The cluster to create the node pool for.
   cluster = google_container_cluster.cluster.name
