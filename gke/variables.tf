@@ -458,7 +458,7 @@ The location of the cluster  (euwe1 = europe-west1)
 EOF
 }
 
-variable "node_locations" {
+variable "tags" {
   type = list(string)
 
   description = <<EOF

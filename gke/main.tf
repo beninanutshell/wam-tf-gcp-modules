@@ -224,6 +224,7 @@ resource "google_container_cluster" "cluster" {
     service_account = google_service_account.default.email
 
     tags = var.tags
+
     workload_metadata_config {
       mode = "GCE_METADATA"
     }
