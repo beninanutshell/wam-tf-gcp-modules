@@ -223,11 +223,13 @@ resource "google_container_cluster" "cluster" {
 
     service_account = google_service_account.default.email
 
+    tags = var.tags
     workload_metadata_config {
       mode = "GCE_METADATA"
     }
 
   }
+
 
   # The loggingservice that the cluster should write logs to. Using the
   # 'logging.googleapis.com/kubernetes' option makes use of new Stackdriver

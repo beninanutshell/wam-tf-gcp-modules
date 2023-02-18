@@ -457,3 +457,11 @@ variable "location" {
 The location of the cluster  (euwe1 = europe-west1)
 EOF
 }
+
+variable "node_locations" {
+  type = list(string)
+
+  description = <<EOF
+  (Optional) The Network tags for Node pool
+EOF
+}
